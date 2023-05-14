@@ -1,3 +1,5 @@
+#https://www.geeksforgeeks.org/scraping-reddit-using-python/
+
 import praw, json
 import pandas as pd
 from praw.models import MoreComments
@@ -14,68 +16,30 @@ reddit_read_only = praw.Reddit(client_id=c_id,         # your client id
                                client_secret=c_s,      # your client secret
                                user_agent=u_a)        # your user agent
 
-#----------------------------------------------------------------------------------------------
-
-subreddit = reddit_read_only.subreddit("redditdev")
- 
-# Display the name of the Subreddit
-print("Display Name:", subreddit.display_name)
- 
-# Display the title of the Subreddit
-print("Title:", subreddit.title)
- 
-# Display the description of the Subreddit
-print("Description:", subreddit.description)
-
-posts = subreddit.top(time_filter="month", limit=5)
-# Scraping the top posts of the current month
- 
-posts_dict = {"Title": [], "Post Text": [],
-              "ID": [], "Score": [],
-              "Total Comments": [], "Post URL": []
-              }
-
-
-#----------------------------------------------------------------------------------------------
-
-subreddit = reddit_read_only.subreddit("Python")
- 
-for post in subreddit.hot(limit=5):
-    print(post.title)
-    print() 
-
-for post in posts:
-    # Title of each post
-    posts_dict["Title"].append(post.title)
-     
-    # Text inside a post
-    posts_dict["Post Text"].append(post.selftext)
-     
-    # Unique ID of each post
-    posts_dict["ID"].append(post.id)
-     
-    # The score of a post
-    posts_dict["Score"].append(post.score)
-     
-    # Total number of comments inside the post
-    posts_dict["Total Comments"].append(post.num_comments)
-     
-    # URL of each post
-    posts_dict["Post URL"].append(post.url)
- 
-# Saving the data in a pandas dataframe
-top_posts = pd.DataFrame(posts_dict)
-top_posts
- 
-top_posts.to_csv("Top Posts.csv", index=True)
 
 #----------------------------------------------------------------------------------------------
 
 # URL of the post
-url = "https://www.reddit.com/r/IAmA/comments/m8n4vt/im_bill_gates_cochair_of_the_bill_and_melinda/"
+url = "https://www.reddit.com/r/cscareerquestions/comments/engwaq/is_it_normal_to_be_absolutely_incompetent_at/"
  
 # Creating a submission object
 submission = reddit_read_only.submission(url=url)
+
+post_data = {
+    "title": submission.title,
+    "url": submission.url,
+    "score": submission.score,
+    "upvote_ratio": submission.upvote_ratio,
+    "created_utc": submission.created_utc,
+    "num_comments": submission.num_comments
+}
+
+post_dump = json.dumps(post_data)
+
+with open('post.json', 'w') as f:
+    json.dump(post_data, f)
+
+
 
 post_comments = []
  
@@ -86,8 +50,8 @@ for comment in submission.comments:
     post_comments.append(comment.body)
  
 # creating a dataframe
-comments_df = pd.DataFrame(post_comments, columns=['comment'])
-comments_df
+comments = pd.DataFrame(post_comments, columns=['comment'])
+comments
 
-comments_df.to_csv("comments_df.csv", index=True)
+comments.to_csv("comments.csv", index=True)
 

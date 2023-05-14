@@ -1,7 +1,7 @@
 {
-    "employees":[
-      {"firstName":"John", "lastName":"Doe"},
-      {"firstName":"Anna", "lastName":"Smith"},
-      {"firstName":"Peter", "lastName":"Jones"}
+    "comments":[
+      {"text":"I found it hard to motivate myself and later on have discipline to finish a project. So I made sure to participate in Hackathons. You have a team to work with and by the end to have a project. Even if you dont win you still have a project and you got pizza.", "upvote":17, "downvote":5, "karma":1865, "author":"fatcatbackpack"},
+      {"text":"For me what works best is to learn new underlying concepts and tools, which then sparks ideas for how to use them. For instance, I have two portfolio pieces that were born when I was learning React. As I was learning I'd have ideas pop into my head along the lines of, Oh I know what this tool would be good for! and then I went and built them.", "upvote":1, "downvote":0, "karma":886492, "author":"CaptainStack"},
+      {"text":"blank", "upvote":0, "downvote":0, "karma":0, "author":"blank"}
     ]
 }

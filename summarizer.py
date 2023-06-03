@@ -38,4 +38,4 @@ response["choices"][0]["finish_reason"]
 ai_output = response["choices"][0]["message"]["content"]
 
 # Render the AI output content
-display(Markdown(ai_output))
+#display(Markdown(ai_output))

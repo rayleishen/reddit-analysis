@@ -16,42 +16,45 @@ reddit_read_only = praw.Reddit(client_id=c_id,         # your client id
                                client_secret=c_s,      # your client secret
                                user_agent=u_a)        # your user agent
 
+url = "https://www.reddit.com/r/Animemes/comments/13yuisl/i_said_what_i_said_moments/"
 
 #----------------------------------------------------------------------------------------------
+class grab_reddit(url):
 
-# URL of the post
-url = "https://www.reddit.com/r/cscareerquestions/comments/engwaq/is_it_normal_to_be_absolutely_incompetent_at/"
- 
-# Creating a submission object
-submission = reddit_read_only.submission(url=url)
+    # URL of the post
+    
+    # Creating a submission object
+    submission = reddit_read_only.submission(url=url)
 
-post_data = {
-    "title": submission.title,
-    "url": submission.url,
-    "score": submission.score,
-    "upvote_ratio": submission.upvote_ratio,
-    "created_utc": submission.created_utc,
-    "num_comments": submission.num_comments
-}
+    post_data = {
+        "title": submission.title,
+        "url": submission.url,
+        "score": submission.score,
+        "upvote_ratio": submission.upvote_ratio,
+        "created_utc": submission.created_utc,
+        "num_comments": submission.num_comments
+    }
 
-post_dump = json.dumps(post_data)
+    post_dump = json.dumps(post_data)
 
-with open('post.json', 'w') as f:
-    json.dump(post_data, f)
-
+    with open('post.json', 'w') as f:
+        json.dump(post_data, f)
 
 
-post_comments = []
- 
-for comment in submission.comments:
-    if type(comment) == MoreComments:
-        continue
- 
-    post_comments.append(comment.body)
- 
-# creating a dataframe
-comments = pd.DataFrame(post_comments, columns=['comment'])
-comments
 
-comments.to_csv("comments.csv", index=True)
+    post_comments = []
+    
+    for comment in submission.comments:
+        if type(comment) == MoreComments:
+            continue
+    
+        post_comments.append(comment.body)
+    
+    # creating a dataframe
+    comments = pd.DataFrame(post_comments, columns=['comment'])
+    comments
 
+    comments.to_csv("comments.csv", index=True)
+
+#function grab_youtube():
+#    return 0

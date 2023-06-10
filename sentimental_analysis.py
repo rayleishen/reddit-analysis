@@ -15,14 +15,20 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
 
 import csv
 
-#can be changed by user
-top_comments=99
+#add parameters
+class run():
+    print("###")
 
+
+
+#can be changed by user
+top_comments=999 #how many of the top comments default=99
+sens=0.2 #how sensative is VADER default=0.2
 
 sia=SIA()
 results = []
 comments = []
-with open('test.csv', errors="ignore") as file_obj:
+with open('comments.csv', errors="ignore") as file_obj:
     reader_obj = csv.reader(file_obj)
     for line in reader_obj:
         #a=sia.polarity_scores(str(line))
@@ -30,25 +36,23 @@ with open('test.csv', errors="ignore") as file_obj:
         pol_score=sia.polarity_scores(str(line))
         pol_score['comment']=line
         results.append(pol_score)
-        
-        
-        
-#for line in comments:        
- #   pol_score=sia.polarity_scores(line)
-  #  pol_score['comment']=line
-   # results.append(pol_score)
-        
+                
         
 pprint(results[:top_comments], width=100)
 
 df = pd.DataFrame.from_records(results)
 df.head()
 
+#ADJUST 0.2 as SENSATIVITY
 df['label'] = 0
-df.loc[df['compound'] > 0.2, 'label'] = 1
-df.loc[df['compound'] < -0.2, 'label'] = -1
+df.loc[df['compound'] > sens, 'label'] = 1
+df.loc[df['compound'] < -sens, 'label'] = -1
 df.head()
 
+
+#Clears csv and saves data
+f = open('reddit_comments_labels.csv', "w+")
+f.close()
 df2 = df[['comment', 'label']]
 df2.to_csv('reddit_comments_labels.csv', mode='a', encoding='utf-8', index=False)
 
@@ -63,6 +67,16 @@ print(df.label.value_counts())
 
 print(df.label.value_counts(normalize=True) * 100)
 
+################################################################
+
+
+class bar_graph():
+    print("###")
+
+class pie_chart():
+    print("###")
+
+
 
 #BAR GRAPH
 
@@ -73,7 +87,9 @@ data = df.label.value_counts(normalize=True) * 100
 sns.barplot(x=data.index, y=data, ax=ax)
 
 ax.set_xticklabels(['Negative', 'Neutral', 'Positive'])
+ax.set_xlabel("Opinion")
 ax.set_ylabel("Percentage")
+
 
 plt.show()
 
@@ -81,7 +97,7 @@ plt.show()
 #PIE CHART
 
 data = df.label.value_counts(normalize=True) * 100
-labels = ['Negative', 'Neutral', 'Positive']
+labels = ['Neutral', 'Negative', 'Positive']
 
 colors = sns.color_palette('pastel')[0:5]
 

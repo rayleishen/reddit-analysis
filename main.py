@@ -1,5 +1,7 @@
 import webscrapper, sentimental_analysis, summarizer
 
+
+
 url = "###"
 
 
@@ -13,7 +15,9 @@ else:
     print("error")
     
     
-sentimental_analysis.run()
+df = sentimental_analysis.run()
 
-sentimental_analysis.bar_graph()
-sentimental_analysis.pie_chart()
+
+
+sentimental_analysis.bar_graph(df)
+sentimental_analysis.pie_chart(df)

@@ -18,8 +18,10 @@ reddit_read_only = praw.Reddit(client_id=c_id,         # your client id
 
 url = "https://www.reddit.com/r/Animemes/comments/13yuisl/i_said_what_i_said_moments/"
 
+
+
 #----------------------------------------------------------------------------------------------
-class grab_reddit(url):
+def grab_reddit(url):
 
     # URL of the post
     
@@ -56,5 +58,5 @@ class grab_reddit(url):
 
     comments.to_csv("comments.csv", index=True)
 
-#function grab_youtube():
-#    return 0
+def grab_youtube():
+    print("###")
